@@ -1,0 +1,43 @@
+//
+//  MainViewController.m
+//  BelApp
+//
+//  Created by Leon on 15/3/4.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import "MainViewController.h"
+#import "BaseNavigationController.h"
+#import "LoginViewController.h"
+
+@interface MainViewController ()
+
+@property (nonatomic) NSUInteger lastIndex;
+
+@end
+
+@implementation MainViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.tabBar.translucent = NO;
+    
+    self.tabBar.tintColor = RGBColor(245, 61, 61);
+    
+
+}
+
+- (void)performLogin{
+    [self performSegueWithIdentifier:@"login" sender:nil];
+}
+
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"login"]) {
+        BaseNavigationController *baseNavi = segue.destinationViewController;
+        LoginViewController *loginCtrl =(LoginViewController *) baseNavi.topViewController;
+        loginCtrl.dismissToAccount = YES;
+    }
+}
+@end

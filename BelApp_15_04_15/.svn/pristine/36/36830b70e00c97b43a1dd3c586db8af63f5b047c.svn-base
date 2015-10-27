@@ -1,0 +1,596 @@
+//
+//  ProductDetialTableViewController.m
+//  BelApp
+//
+//  Created by 罗成 on 15/3/10.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import "ProductDetialController.h"
+#import "BorrowerInfo.h"
+#import "AddRecords.h"
+#import "RepaymentModel.h"
+#import "ProductInfoViewController.h"
+#import "BorrowerInfo.h"
+#import "AddRecordViewController.h"
+#import "RepaymentPlanViewController.h"
+#import "RepaymentModel.h"
+#import "TransferInfo.h"
+#import "TransferInfoViewController.h"
+#import "LCTimeProgressView.h"
+#import "AppDelegate.h"
+#import "VerifyView.h"
+#import "AgreementController.h"
+#import "LCGrayButton.h"
+
+
+@interface ProductDetialController () <UIGestureRecognizerDelegate,VerifyViewDelegate,AgreementDelegate,UIAlertViewDelegate>
+
+/** 提示按钮(非投资状况下) */
+@property (weak, nonatomic) IBOutlet LCGrayButton *noticeBtn;
+@property (nonatomic, strong) AppDelegate *appDelegate;
+
+/**标题*/
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *orderNumber;
+
+/**收益率*/
+@property (weak, nonatomic) IBOutlet UILabel *rateLabel;
+/**项目金额*/
+@property (weak, nonatomic) IBOutlet UILabel *projectLabel;
+/**期数*/
+@property (weak, nonatomic) IBOutlet UILabel *periodsLabel;
+/**投资金额*/
+@property (weak, nonatomic) IBOutlet UITextField *investField;
+/**收益金额*/
+@property (weak, nonatomic) IBOutlet UILabel *incomeLabel;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *incomeCell;
+
+@property (weak, nonatomic) IBOutlet LCTimeProgressView *timeProgressView;
+
+@property (weak, nonatomic) IBOutlet LCGrayButton *incomBtn;
+
+- (IBAction)income:(id)sender;
+- (IBAction)agreeAction:(UIButton *)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *agreeBtn;
+
+@property (strong, nonatomic) IBOutlet VerifyView  *verifyView;
+
+@property (nonatomic,strong) BorrowerInfo *borrowerInfo;
+@property (nonatomic,strong) AddRecords *addRecords;
+@property (nonatomic,strong) RepaymentModel *repaymentModel;
+
+@property (nonatomic,strong) NSArray *recordDataArr;
+@property (nonatomic,strong) NSArray *repaymentArr;
+@property (nonatomic, strong) NSArray *transferArr;
+@property(nonatomic,strong) NSDictionary *totalDic;
+
+/** 遮罩背景 */
+@property (nonatomic, weak) UIButton *backButton;
+@property (nonatomic, weak) UIView *bgView;
+@property (nonatomic, assign) double rate;
+
+- (IBAction)showProductInfo:(UITapGestureRecognizer *)sender;
+- (IBAction)showAddRecord:(UITapGestureRecognizer *)sender;
+- (IBAction)showTransInfo:(UITapGestureRecognizer *)sender;
+
+//可投资cell
+@property (weak, nonatomic) IBOutlet UITableViewCell *investCell;
+//不可投资cell
+@property (weak, nonatomic) IBOutlet UITableViewCell *noInvestCell;
+
+//View
+/** 可投资view */
+@property (weak, nonatomic) IBOutlet UIView *investView;
+/**剩余金额*/
+@property (weak, nonatomic) IBOutlet UILabel *amountLabel;
+
+/** 满标view */
+@property (weak, nonatomic) IBOutlet UIView *fullView;
+@property (weak, nonatomic) IBOutlet UILabel *totalMoney;
+@property (weak, nonatomic) IBOutlet UILabel *personNumber;
+/** 流标view */
+@property (weak, nonatomic) IBOutlet UIView *passView;
+/** 结清view */
+@property (weak, nonatomic) IBOutlet UIView *settleView;
+@property (weak, nonatomic) IBOutlet UILabel *settleMoney;
+@property (weak, nonatomic) IBOutlet UILabel *settlePersonNumber;
+
+/** 交易成功view */
+@property (weak, nonatomic) IBOutlet UIView *dealView;
+@property (weak, nonatomic) IBOutlet UILabel *incomeMoney;
+@property (weak, nonatomic) IBOutlet UILabel *nextTime;
+@property (weak, nonatomic) IBOutlet UILabel *remindPeriods;
+@property (weak, nonatomic) IBOutlet UITableViewCell *transfCell;
+
+@end
+
+@implementation ProductDetialController
+
+- (AppDelegate *)appDelegate {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    //初始化UI
+    [self initUI];
+    //初始化数据
+    [self loadData];
+    
+    NSDictionary *param = @{@"signature":@"",
+                            @"orderId":self.productModel.orderId};
+    
+    [HttpRequest postWithURL:@"invest/invest_detail.html" params:param success:^(id json) {
+        NSString *status = [json objectForKey:@"status"];
+        
+        if ([status isEqualToString:@"y"]) {
+            
+            NSDictionary *project_info = [json objectForKey:@"project_info"];
+            //项目信息(字典)
+            self.borrowerInfo = [BorrowerInfo objectWithKeyValues:project_info];
+            
+            //加入记录(数组)
+            self.recordDataArr = [AddRecords objectArrayWithKeyValuesArray:json[@"join_records"]];
+            //还款计划(字典+数组+字典)
+            NSDictionary *dic = [json objectForKey:@"repayments"];
+            self.repaymentArr = [RepaymentModel objectArrayWithKeyValuesArray:[dic objectForKey:@"arry"]];
+            self.totalDic = [dic objectForKey:@"json"];
+            self.repaymentModel = [RepaymentModel objectWithKeyValues:self.totalDic];
+            
+            LCLog(@"total----%@",self.totalDic);
+            //债权转让记录
+            self.transferArr = [TransferInfo objectArrayWithKeyValuesArray:json[@"transfer_info"]];
+            
+            if(self.productModel.orderTradeStatu == OrderTradeStatusInvesting) {
+                self.amountLabel.text =[NSString stringWithFormat:@"%@元",[project_info objectForKey:@"surplusPrincal"]];
+                self.productModel.surplusPrincal = [project_info[@"surplusPrincal"] doubleValue];
+            }
+            
+            //交易成功信息展示
+            if (self.productModel.orderTradeStatu == OrderTradeStatusDealed) {
+                NSDictionary *dic = json[@"payinfo"];
+                self.incomeMoney.text = [NSString stringWithFormat:@"%@元", dic[@"debts"]];
+                self.nextTime.text = dic[@"payTime"];
+                self.remindPeriods.text = [NSString stringWithFormat:@"%@个月", dic[@"persiods"]];
+            }
+            
+            if (self.productModel.orderTradeStatu == OrderTradeStatusFull) {
+                self.totalMoney.text = [NSString stringWithFormat:@"%@元",self.productModel.amount];
+                self.personNumber.text = [NSString stringWithFormat:@"%lu人",(unsigned long)self.recordDataArr.count];
+            }
+            
+            self.timeProgressView.progress = [[project_info objectForKey:@"progress"] floatValue] / 100.0;
+            //每月应还利息=贷款本金×月利率×〔(1+月利率)^还款月数-(1+月利率)^(还款月序号-1)〕÷〔(1+月利率)^还款月数-1〕
+            //利率
+            self.rate = [[project_info objectForKey:@"rate2"] doubleValue];
+            //            NSLog(@"%f",self.rate);
+            self.tableView.hidden = NO;
+            [MBProgressHUD hideHUD];
+            
+        } else {
+            [MBProgressHUD hideHUD];
+            [MBProgressHUD showError:@"加载失败"];  
+        }
+        
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
+        [MBProgressHUD showError:@"加载失败"];
+    }];
+
+}
+
+
+#pragma mark - 初始化UI
+- (void)initUI {
+    //可投资项目
+    if (self.productModel.orderTradeStatu == OrderTradeStatusInvesting) {
+        //非可投资cell隐藏
+        self.noInvestCell.hidden = YES;
+        
+        //设置投资按钮样式
+        self.incomBtn.normalColor = RGBColor(245, 61, 61);
+        self.incomBtn.enabled = NO;
+        //设置协议状态
+        if (self.appDelegate.loginStatus) {
+            if ([UserDefaults boolForKey:self.appDelegate.loginAccount.userinfo.login_id]) {
+                self.agreeBtn.selected = YES;
+            } else {
+                self.incomBtn.enabled = NO;
+            }
+        }
+        //显示投资View
+        self.investView.hidden = NO;
+    } else  {
+        //其余状态
+        self.investCell.hidden = YES;
+        self.noticeBtn.enabled = NO;
+        
+        NSString *title = nil;
+        UIView *view = nil;
+        
+        switch (self.productModel.orderTradeStatu) {
+            case OrderTradeStatusPass:
+                title = @"流标";
+                view = self.passView;
+                break;
+            case OrderTradeStatusFull:
+                title = @"满标";
+                view = self.fullView;
+                break;
+            case OrderTradeStatusError:
+                title = @"异常";
+                view = self.fullView;
+                break;
+            case OrderTradeStatusDead:
+                title = @"死亡";
+                break;
+            case OrderTradeStatusDealed:
+                title = @"交易成功";
+                view = self.dealView;
+                break;
+            case OrderTradeStatusSettle:
+                title = @"结清";
+                view = self.settleView;
+                break;
+            default:
+                break;
+        }
+        [self.noticeBtn setTitle:title forState:UIControlStateDisabled];
+        view.hidden = NO;
+    }
+    
+    //设置投资输入框监听
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.investField];
+    
+    
+    //添加手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.view addGestureRecognizer:tap];
+    tap.delegate = self;
+    
+    //设置浮层背景
+    UIView *bgView = [[UIView alloc] initWithFrame:self.view.frame];
+    bgView.backgroundColor = [UIColor clearColor];
+    bgView.alpha = 0;
+
+    UIButton *button = [[UIButton alloc] init];
+    button.frame = CGRectMake(0, 0, self.tableView.contentSize.width, self.tableView.contentSize.height + 100);
+    button.alpha = 0.25;
+    [button setBackgroundColor:[UIColor blackColor]];
+    
+    [self.view addSubview:bgView];
+    [bgView addSubview:button];
+    self.backButton = button;
+    self.bgView = bgView;
+    self.verifyView.delegate = self;
+}
+    
+#pragma mark - 加载数据
+- (void)loadData {
+    self.rateLabel.text = [NSString stringWithFormat:@"%@",self.productModel.rate];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@",self.productModel.title];
+    self.projectLabel.text = [NSString stringWithFormat:@"%@元",self.productModel.amount];
+    self.periodsLabel.text = [NSString stringWithFormat:@"%@个月",self.productModel.periods];
+    self.orderNumber.text = [NSString stringWithFormat:@"[%@]",self.productModel.orderNumber];
+    
+    self.timeProgressView.progress = [self.productModel.progress floatValue] / 100.0;
+    
+    if (self.productModel.orderTradeStatu == OrderTradeStatusInvesting) {
+        self.transfCell.hidden = YES;
+    }
+    if (self.productModel.orderTradeStatu == OrderTradeStatusInvesting) {
+        self.timeProgressView.progressTintColor = [UIColor redColor];
+        
+    } else  {
+        self.timeProgressView.progressTintColor = [UIColor lightGrayColor];
+    }
+    
+    self.timeProgressView.borderTintColor = [UIColor lightGrayColor];
+    
+    self.timeProgressView.str =[NSString stringWithFormat:@"%@％",self.productModel.progress];
+    
+    
+}
+
+#pragma mark - 隐藏键盘
+- (void)hideKeyboard
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark - 监听输入框
+- (void)textChange
+{
+    //投资按钮是否能点击
+    if (self.agreeBtn.isSelected) {
+        self.incomBtn.enabled = self.investField.text.length > 0;
+    }
+
+    
+    double money = [self.investField.text doubleValue];
+    
+    if ( money > self.productModel.surplusPrincal) {
+        money = self.productModel.surplusPrincal;
+        self.investField.text = [NSString stringWithFormat:@"%.0f", money];
+    }
+    int n = [self.periodsLabel.text intValue];
+    double rate = (self.rate) / 12 * 0.01;
+    double a = money * rate * n * pow((1 + rate), n);
+    double b = pow((1 + rate), n) - 1;
+    double c = a / b - money;
+    
+    self.incomeLabel.text =[NSString stringWithFormat:@"%.2f",c];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    // 若为UITableViewCellContentView（即点击了tableViewCell），则不截获Touch事件
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewLabel"]) {
+        return NO;
+    }
+    return  YES;
+}
+
+
+#pragma mark - TableView Cell Height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 44.0;
+    if (indexPath.section == 0 ) {
+        if (indexPath.row == 0) {
+            if (self.productModel.orderTradeStatu == 0) {
+                height = 200;
+            } else {
+                height = 0;
+            }
+        }
+        if (indexPath.row == 1) {
+            if (self.productModel.orderTradeStatu == 0) {
+                height = 0;
+            } else  {
+                height = 72;
+            }
+        }
+    }
+    return height;
+}
+
+
+
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([segue.identifier isEqualToString:@"productInfo"]) {
+        ProductInfoViewController *productInfo = segue.destinationViewController;
+        productInfo.borrowerInfo = self.borrowerInfo;
+    }else if ([segue.identifier isEqualToString:@"addRecord"]){
+        
+        AddRecordViewController *addRecord = segue.destinationViewController;
+        addRecord.recordsArr = self.recordDataArr;
+    }else if ([segue.identifier isEqualToString:@"repayment"]){
+        
+        RepaymentPlanViewController *repaymentVC = segue.destinationViewController;
+        repaymentVC.repaymentModel = self.repaymentModel;
+        repaymentVC.repaymentArr = self.repaymentArr;
+        repaymentVC.totalDic = self.totalDic;
+        
+    } else if ([segue.identifier isEqualToString:@"tranferInfo"]){
+        TransferInfoViewController *transferInfo = segue.destinationViewController;
+        transferInfo.transferInfoArray = self.transferArr;
+    }
+}
+
+- (void)dealloc{
+    LCLog(@"%@-->dealloc",self);
+    [[NSNotificationCenter  defaultCenter] removeObserver:self];
+}
+
+
+- (void) hideVerifyViewWithAnimated:(BOOL)animated {
+    self.tableView.scrollEnabled = YES;
+    
+    [self hideKeyboard];
+    
+    [UIView animateWithDuration: animated ? 0.25f:0.0f animations:^{
+        self.bgView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.verifyView removeFromSuperview];
+    }];
+}
+
+- (IBAction)income:(id)sender {
+    
+    [self hideKeyboard];
+    
+    if (self.appDelegate.loginStatus) {
+        
+        if (self.investField.text.length <= 0) {
+            [MBProgressHUD showError:@"请输入投资金额"];
+            return;
+        }
+        
+        if ([self.investField.text integerValue] % 100 != 0) {
+            [MBProgressHUD showError:@"投资金额需为100的整倍数"];
+            return;
+        }
+        
+        LoginAccount *account = self.appDelegate.loginAccount;
+        
+        if (!account.userinfo.isRealnameValid) {
+            [MBProgressHUD showError:@"请先进行实名认证及富友认证"];
+            return;
+        }
+        
+        if (!account.userinfo.isFyValid) {
+            [MBProgressHUD showError:@"请先进行富友认证"];
+            return;
+        }
+        
+        if ([self.investField.text doubleValue] <= account.amount_available) {
+            
+            LCLog(@"%f",self.tableView.contentOffset.y);
+            
+            [self.bgView addSubview:self.verifyView];
+            
+            
+            NSDictionary* views = @{@"verifyView":self.verifyView};
+            //设置高度
+            [self.bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[verifyView(170)]" options:0 metrics:nil views:views]];
+            //设置宽度
+            [self.bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[verifyView(280)]" options:0 metrics:nil views:views]];
+            //垂直居中
+            [self.bgView addConstraint:[NSLayoutConstraint constraintWithItem:self.verifyView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeCenterY multiplier:1 constant:-150 +self.tableView.contentOffset.y ]];
+            //水平居中
+            [self.bgView addConstraint:[NSLayoutConstraint constraintWithItem:self.verifyView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.bgView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+            
+            [self.bgView setNeedsLayout];
+            
+            [UIView animateWithDuration: .25f animations:^{
+                self.bgView.alpha = 1;
+            }];
+            
+            self.tableView.scrollEnabled = NO;
+            
+            LCLog(@"--> %@", NSStringFromCGRect(self.verifyView.frame));
+        }
+        else {
+            
+            [MBProgressHUD showError:@"账户余额不足"];
+            
+        }
+        
+    }else {
+        BaseNavigationController *login = [[UIStoryboard storyboardWithName:@"login" bundle:nil] instantiateInitialViewController];
+        [self presentViewController:login animated:YES completion:nil];
+    }
+    
+}
+
+#pragma mark - Action 同意协议
+- (IBAction)agreeAction:(UIButton *)sender {
+    
+    if(sender.isSelected) {
+        sender.selected = NO;
+        self.incomBtn.enabled = NO;
+    } else  {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"login" bundle:nil];
+        AgreementController *agree = [sb instantiateViewControllerWithIdentifier:@"AgreementController"];
+        agree.agreementStr = @"agreement";
+        agree.delegate = self;
+        agree.title = @"借款与信用咨询协议";
+        [self.navigationController pushViewController:agree animated:YES];
+    }
+}
+
+#pragma mark 同意协议
+- (void)agreeUserAgreement {
+    if (self.investField.text.length > 0) {
+        self.incomBtn.enabled = YES;
+    }
+    self.agreeBtn.selected = YES;
+}
+
+
+- (void)verifyView:(VerifyView *)verifyView clickCancel:(UIButton *)cancelBtn
+{
+    [self hideVerifyViewWithAnimated:YES];
+}
+
+- (void)verifyView:(VerifyView *)verifyView clickResend:(UIButton *)resendBtn
+{
+    NSDictionary *param = @{@"mobile":[AccountUtil account].userinfo.mobile,
+                            @"type":@"3",
+                            @"send_mobile_code":@"0",
+                            @"signature":@""
+                            };
+    [HttpRequest postWithURL:@"account/send_mobile_code.html" params:param success:^(id json) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)verifyView:(VerifyView *)verifyView clickSubmitWithCode:(NSString *)verifyCode
+{
+    [self hideVerifyViewWithAnimated:NO];
+    [MBProgressHUD showMessage:@"正在提交"];
+    
+    NSDictionary *param = @{@"signature":@"",
+                            @"login_id":[AccountUtil account].userinfo.login_id,
+                            @"order_id":self.productModel.orderId,
+                            @"amount":self.investField.text,
+                            @"code":verifyCode};
+    
+    [HttpRequest postWithURL:@"invest/do_invest.html" params:param success:^(id json) {
+        LCLog(@"投资数据%@",json);
+        NSString *status = [json objectForKey:@"status"];
+        NSString *info = [json objectForKey:@"info"];
+        if ([status isEqualToString:@"y"]) {
+            [MBProgressHUD hideHUD];
+
+
+            
+            self.recordDataArr = [AddRecords objectArrayWithKeyValuesArray:json[@"join_records"]];
+            [self.appDelegate updateAccount];
+            self.productModel.progress = json[@"progress"];
+            self.investField.text = @"";
+            [self loadData];
+            //记录已经投资过
+            [UserDefaults setBool:YES forKey:self.appDelegate.loginAccount.userinfo.login_id];
+            [UserDefaults synchronize];
+            
+            [[[UIAlertView alloc] initWithTitle:info message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"继续投资",@"我的账户", nil] show];
+            
+        }else {
+            [MBProgressHUD hideHUD];
+            [MBProgressHUD showError:info];
+        }
+    } failure:^(NSError *error) {
+        
+        [MBProgressHUD hideHUD];
+    }];
+    
+    
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    LCLog(@"index --> %d",buttonIndex);
+    if(buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else  {
+        [self.appDelegate toMyAccount];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+}
+
+#pragma mark - 产品信息展示
+- (IBAction)showProductInfo:(UITapGestureRecognizer *)sender {
+    if(self.appDelegate.loginStatus) {
+        [self performSegueWithIdentifier:@"productInfo" sender:nil];
+    } else {
+        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+    }
+}
+
+- (IBAction)showAddRecord:(UITapGestureRecognizer *)sender {
+    if(self.appDelegate.loginStatus) {
+        [self performSegueWithIdentifier:@"addRecord" sender:nil];
+    } else {
+        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+    }
+}
+
+- (IBAction)showTransInfo:(UITapGestureRecognizer *)sender {
+    if(self.appDelegate.loginStatus) {
+        [self performSegueWithIdentifier:@"tranferInfo" sender:nil];
+    } else {
+        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+    }
+}
+@end

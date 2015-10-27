@@ -1,0 +1,53 @@
+//
+//  BelApp.pch
+//  BelApp
+//
+//  Created by Leon on 15/3/3.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+MJ.h"
+#import "HttpRequest.h"
+#import "MJExtension.h"
+#import "LoginAccount.h"
+#import "AccountUtil.h"
+#import "AppDelegate.h"
+#import "BaseNavigationController.h"
+
+#define AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES
+
+// 获得RGB颜色
+#define RGBColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+
+#define iOS7 ([[UIDevice currentDevice].systemVersion doubleValue] >= 7.0)
+#define iOS8 ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0)
+
+#ifdef DEBUG
+#define LCLog(...)  NSLog(__VA_ARGS__)
+#else
+#define LCLog(...)
+#endif
+
+
+#define UserDefaults [NSUserDefaults standardUserDefaults]
+
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define ScreenWidth  [UIScreen mainScreen].bounds.size.width
+
+#define kProductType    @"kProductType"
+#define kVersionKey     @"CFBundleVersion"
+#define kAgreeProtocol  @"kAgreeProtocol"
+
+#define iPhone4s ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#endif

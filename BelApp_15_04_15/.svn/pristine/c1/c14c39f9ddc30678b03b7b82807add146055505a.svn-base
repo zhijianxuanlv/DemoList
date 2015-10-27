@@ -1,0 +1,167 @@
+﻿<html><head>
+  <title>个人借款债权转让通用条款</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	 <meta name="google-site-verification" content="oQXrGa_mTgxg7joO0himE0QuFeqOVmm-SDC1H2dzT4c">
+	<style type="text/css">body {font-family: SimSun;}img {border: none;}
+	
+	.confbtn {
+		background: none repeat scroll 0 0 #5488FF;
+		border: medium none;
+		border-radius: 8px;
+		-moz-border-radius: 8px;
+		-webkit-border-radius: 8px;
+		color: #fff;
+		cursor: pointer;
+		font-size: 15px;
+		height: 35px;
+		line-height: 35px;
+		text-align: center;
+		transition-duration: 0.2s;
+		transition-property: background-color;
+		transition-timing-function: ease;
+		padding: 0 10px;
+		margin-top: 10px;
+		min-width: 100px;
+		font-family: "MicroYahei";
+		display: inline-block;
+		}
+		a {
+text-decoration: none;
+}
+	</style>
+ </head>
+ <body>
+  <div style="font-size:14px;margin: 0 auto;position: relative;">
+ <br><br>
+ 	
+       <div style="background-color: #FFFFFF;  padding: 5px 12px;" id="content">
+        <h2 align="center">个人借款债权转让协议</h2>
+        <br>
+        <div style="text-align: center;font-weight: 700;">第一部分  个人借款债权转让明细 </div>
+        <br>
+	        <table border="1" style="margin: 0px auto; font-size:12px; border-collapse: collapse; border: 1px solid rgb(0, 0, 0); width:100%; text-align: center;">
+	            <tbody><tr style="line-height: 20px;"><td width="15%">协议编号</td><td colspan="5"></td></tr>
+	            <tr style="line-height: 20px;"><td colspan="6">借款人</td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">姓名</td><td width="10%"></td><td width="15%">身份证号码</td><td width="20%"></td><td width="10%">平台账号</td><td width="10%"></td></tr>
+	            <tr style="line-height: 20px;"><td colspan="6">出让人</td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">姓名</td><td width="10%"></td><td width="15%">身份证号码</td><td width="20%"></td><td width="10%">平台账号</td><td width="10%"></td></tr>
+	            <tr style="line-height: 20px;"><td colspan="6">受让人</td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">姓名</td><td width="10%"></td><td width="15%">身份证号码</td><td width="20%"></td><td width="10%">平台账号</td><td width="10%"></td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">借款债权本金余额</td>	<td width="10%" colspan="5"></td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">转让生效日</td>		<td width="10%"></td><td width="15%">转让价格</td><td width="20%" colspan="3"></td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">借款债权原始期限</td>	<td width="10%"></td><td width="15%">借款债权剩余期限</td><td width="20%" colspan="3"></td></tr>
+	            <tr style="line-height: 20px;"><td width="15%">转让债权最终到期日</td>	<td width="10%"></td><td width="15%">转让债权借款利率</td><td width="20%" colspan="3"></td></tr>
+	        </tbody></table>
+        <br>
+        <div style="text-align: center;font-weight: 700;">第二部分  个人借款债权转让通用条款</div>
+        <br>
+	        <p style="text-align: left;font-weight: 700;">第一条 定义</p>
+        
+<p><b>1.1</b> 在本个人借款债权转让协议中，下列术语具有如下含义：</p>
+<p>(1)“本协议”指本个人借款债权转让协议，本协议包括“第一部分：个人借款债权转让明细”、“第二部分：个人借款债权转让通用条款”和“附件：借款协议”。</p>
+<p>(2)“出让人”指本协议“第一部分：个人借款债权转让明细”中列明的出让人，为符合中国法律规定的具有完全民事权利能力和民事行为能力，独立享有和承担本协议项下权利义务的自然人或机构。出让人为贝尔在线的注册用户。</p>
+<p>(3)“借款人”指本协议“第一部分：个人借款债权转让明细”中列明的借款人，为符合中国法律规定的具有完全民事权利能力和民事行为能力，独立行使和承担原始借款协议项下权利义务的自然人。借款人为贝尔在线的注册用户。</p>
+<p>(4)“受让人”指本协议“第一部分：个人借款债权转让明细”中列明的受让人，为符合中国法律规定的具有完全民事权利能力和民事行为能力，独立承担本协议项下权利义务的法人或自然人,受让人为贝尔在线的注册用户。</p>
+<p>(5)“原始借款协议”指由借款人和原始出借人就本笔个人借款达成的借款协议，即本协议“附件：《借款协议》”。原始借款协议中“第一部分：借款明细”所显示的均为本笔个人借款的原始信息。</p>
+<p>(6)“借款债权”指出让人依照本协议约定向受让人转让的在原始借款协议项下对借款人享有的债权权利。借款债权本金余额、借款债权借款利率、借款债权最终到期日详见本协议“第一部分：个人借款债权转让明细”。</p>
+<p>(7)“借款债权本金余额”指在本协议签署之日借款债权项下借款人尚未归还的本金余额，即本协议“第一部分：个人借款债权转让明细”中列明的借款债权本金余额。</p>
+<p>(8)“转让生效日”指受让人以网络在线点击确认的方式接受本协议且通过贝尔在线或贝尔在线委托的第三方成功向出让人支付转让价款之日。</p>
+<p>(9)“转让价格”指本协议“第一部分：个人借款债权转让明细”中列明的转让价格，为受让人向出让人支付的转让借款债权的对价。</p>
+<p>(10)“转让债权借款利率”指本协议“第一部分：个人借款债权转让明细”中列明的转让债权的借款利率；即为附件：《借款协议》中约定的利率，如遇依借款协议约定进行利率调整，转让债权借款利率相应进行调整。</p>
+<p>(11)“转让债权最终到期日”指本协议“第一部分：个人借款债权转让明细”中列明的转让债权最终到期日；指该笔借款债权原始借款期限届满之日。</p>
+<p><b>1.2</b> 解释</p>
+<p>(1)本协议项下出让人和出让人单独称“一方”，合称“双方”。</p>
+<p>(2)除非在本协议中另有明文定义，在原始借款协议中已定义的用语在本协议中使用时应具有相同的含义。</p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第二条、借款债权的转让</p></div>
+<p>1.鉴于出让人已通过贝尔在线网络平台（<b>http://www.51bel.com/</b>）提出转让借款债权的要约，在受让人通过贝尔在线以网络在线点击确认的方式接受本协议后，双方即达成按照本协议规定之条款和条件转让借款债权的合意，借款债权在转让生效日由出让人转让给受让人。</p>
+<p>2.自转让生效日起，受让人享有所有有关借款债权的权利、利益和收益以及与上述相关的任何其他权利、诉求和利益(包括但不限于按约定收取归还借款债权本金余额、相应利息)。</p>
+<p>3.自转让生效日起，受让人将自动受原始借款协议中相关条款和条件的约束；并享有原始借款协议中有关原始出借人享有的相关权利，承担原始出借人应承担的责任和义务。</p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第三条、转让价格及款项支付</p></div>
+<p>出让人将借款债权转让给受让人的价格为转让价格。</p>
+<p>受让人授权并委托贝尔在线或贝尔在线委托的第三方将金额等同于转让价格的款项从受让人贝尔在线用户名项下账户划转至出让人贝尔在线用户名项下账户，划转完毕视为转让价款支付成功。</p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第四条、借款债权转让通知</p></div>
+<p>经充分了解本借款债权转让交易的特定及风险，本协议双方在此确认并授权贝尔在线将本借款债权转让交易通知借款人。</p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第五条、陈述和保证</p></div>
+<p><b>5.1</b> 出让人作出如下陈述和保证：</p>
+<p>(1)出让人拥有完全的民事权利能力和民事行为能力签署并履行本协议；</p>
+<p>(2)据出让人合理所知，至转让生效日原始借款协议所载的一切条款及条件均得到适当的遵守及履行；</p>
+<p>(3)本协议所设定的转让将会依本协议的规定构成对其合法、有效且有约束力的义务，并可依据本协议的规定予以执行；</p>
+<p>(4)未订立或允许订立任何协议(本协议除外)，以出售、转让或其他方式处置全部或部分借款债权；</p>
+<p>(5)除根据本协议设定的转让外，借款债权上不存在为任何第三人的利益设定的任何优先权益；</p>
+<p>(6)在转让生效日，不存在可能会导致出让人不能履行其在本协议项下的义务的诉讼、仲裁或行政程序；</p>
+<p>(7)本协议的各条款均是其真实意思的表示，对其具有法律约束力。</p>
+<p><b>5.2</b> 受让人作出如下陈述和保证：</p>
+<p>(1)受让人拥有完全的民事权利能力和民事行为能力签署并履行本协议；</p>
+<p>(2)受让人通过贝尔在线或贝尔在线委托的第三方向出让人支付的转让价款的资金来源均合法；</p>
+<p>(3)本协议的各条款均是其真实意思的表示，对其具有法律约束力。</p>
+
+<div><p style="text-align: left;font-weight: 700;">第六条、证据和计算</p></div>
+<p><b>6.1</b> 本协议项下各方同意并承诺，本协议项下各方提供的信息均应在提供给贝尔在线。本协议各方授权贝尔在线根据本协议任意一方的合理要求向其提供本协议各方向贝尔在线提供的所有信息。</p>
+<p><b>6.2</b> 本协议经出让人与受让人通过贝尔在线以网络在线点击确认或贝尔在线提供的其他类似方式订立。本协议各方委托贝尔在线保管所有与本协议有关的书面文件或电子信息；本协议各方确认并同意由贝尔在线提供的与本协议有关的书面文件或电子信息在无明显错误的情况下应作为本协议有关事项的终局证明。</p>
+<p><b>6.3</b> 本协议各方确认并同意，委托贝尔在线对本协议项下的任何金额进行计算；在无明显错误的情况下，贝尔在线对本协议项下任何金额的任何证明或确定，应作为该金额有关事项的终局证明。</p>
+<p><b>6.4</b> 本协议项下的附件和补充协议均由贝尔在线电子文本形式作出并构成本协议不可分割的一部分。</p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第七条 通知</p></div>
+<p><b>7.1</b> 本协议任何一方根据本协议约定做出的通知和/或文件均应以书面形式做出，可由专人送达、挂号邮递、特快专递或通过贝尔在线网络平台发布等方式传送。</p>
+<p><b>7.2</b> 通知在下列日期视为送达：</p>
+<p>（1）专人递送的通知，在专人递送之交付日为有效送达；</p>
+<p>（2）以挂号信（付清邮资）发出的通知，在寄出（以邮戳为凭）后的五（5）个工作日内为有效送达；</p>
+<p>（3）以特快专递（付清邮资）发出的通知，在寄出（以邮戳为凭）后的三（3）个工作日内为有效送达；</p>
+<p>（4）以传真或电子邮件发出的通知，在电子信息反馈为送达后一（1）个工作日内为有效送达。</p>
+<p></p>
+<p></p>
+<div><p style="text-align: left;font-weight: 700;">第八条 法律适用及管辖</p></div>
+<p><b>8.1</b> 本协议项下全部事项，包括但不限于本协议的效力、解释、履行及争议的解决均受中国法律管辖；本协议项下任一条款如有与中国法律中的强制性规范相抵触，应在该等强制性规范所不受禁止的最大限度内进行解释和执行，且任何该等与强制性规范相抵触的约定不应影响本协议其他条款的效力。</p>
+<p><b>8.2</b> 本协议中部分条款根据相关法律法规等的规定成为无效，或部分无效时，该等无效不影响本协议项下其他条款的效力，各方仍应履行其在本协议项下的义务。</p>
+<p><b>8.3</b> 在本协议履行过程中，如发生任何争议或纠纷，若无法协商一致的，各方同意向苏州中资联信用管理有限公司住所地人民法院提起诉讼。争议处理期间，除争议条款外，其他条款仍应由各方履行。</p>
+
+
+<p style="text-align:right; padding-right: 200px;">附件： 《借款协议》 </p>
+        
+        
+<!--        <p style="text-align:center; margin-bottom:15px;"><a href="javascript:parent.window.agree1()" class="confbtn">同意</a></p>-->
+	</div>
+
+</div>
+
+<script type="text/javascript" src="/common/js/jquery-1.9.1.min.js?version=20140830"></script>
+<script type="text/javascript">
+	$(function(){
+		$("tr").css("line-height","20px");
+	})
+	function downloadPdf(){
+	    var html;
+		if(/*@cc_on!@*/0){ 
+			html = ieInnerHTML($("#content")[0]);
+		}else{ 
+			html = $("#content").html();
+		} 
+	    $("#htmlContent").val(html);
+	    $("#downloadForm").submit();
+	}
+
+function ieInnerHTML(obj){
+    var zz = obj.innerHTML, z = zz.match(/<\/?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)\/?>/g);
+    if (z) {
+        for (var i = 0; i < z.length; i++) {
+            var y, zSaved = z[i];
+            z[i] = z[i].replace(/(<?\w+)|(<\/?\w+)\s/, function(a){
+                return a.toLowerCase();
+            });
+            y = z[i].match(/\=\w+[?\s+|?>]/g);
+            if (y) {
+                for (var j = 0; j < y.length; j++) {
+                    z[i] = z[i].replace(y[j], y[j].replace(/\=(\w+)([?\s+|?>])/g, '="$1"$2'));
+                }
+            }
+            zz = zz.replace(zSaved, z[i]);
+        }
+    }
+    return zz;
+}
+</script>
+</body></html>

@@ -1,0 +1,41 @@
+//
+//  Userinfo.h
+//  BelApp
+//
+//  Created by Leon on 15/3/7.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface Userinfo : NSObject
+
+/** 富友认证 */
+@property (nonatomic, readonly, getter=isFyValid) BOOL fyValid;
+///** 邮箱认证 */
+@property (nonatomic, readonly, getter=isEmailValid) BOOL emailValid;
+///** 问题认证 */
+//@property (nonatomic, getter=isQuestionValid) BOOL question_valid;
+///** 实名认证 */
+@property (nonatomic, readonly, getter=isRealnameValid) BOOL realnameValid;
+/** 用户名 */
+@property (nonatomic, copy) NSString *username;
+/** 用户id*/
+@property (nonatomic, copy) NSString *login_id;
+/** 手机号 */
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *fy_account;
+
+@property (nonatomic, copy) NSString *realname;
+
+@property (nonatomic, copy) NSString *fy_valid;
+/** 邮箱认证 */
+@property (nonatomic, copy) NSString *email_valid;
+/** 问题认证 */
+@property (nonatomic, copy) NSString *question_valid;
+/** 实名认证 */
+@property (nonatomic, copy) NSString *realname_valid;
+
+@end

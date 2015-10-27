@@ -1,0 +1,43 @@
+   //
+//  MoreViewController.m
+//  BelApp
+//
+//  Created by Danny on 15/3/5.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import "MoreViewController.h"
+#import "InfoViewController.h"
+
+@interface MoreViewController ()
+- (IBAction)call;
+
+@end
+
+@implementation MoreViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.navigationController.navigationBar.translucent = NO;
+}
+
+- (IBAction)call {
+    NSMutableString *str = [[NSMutableString alloc]initWithFormat:@"tel:%@",@"400-0686-600" ];
+    UIWebView *callWebView = [[UIWebView alloc]init];
+    [callWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [self.view addSubview:callWebView];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"aboutSegue"]){
+        InfoViewController *info = segue.destinationViewController;
+        info.htmlName = @"contact.html";
+        info.title = @"平台介绍";
+    } else if ([segue.identifier isEqualToString:@"contactSegue"]){
+        InfoViewController *info = segue.destinationViewController;
+        info.htmlName = @"about.html";
+        info.title = @"关于贝尔";
+    }
+}
+
+@end

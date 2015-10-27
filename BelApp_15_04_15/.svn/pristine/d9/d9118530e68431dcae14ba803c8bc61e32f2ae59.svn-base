@@ -1,0 +1,52 @@
+//
+//  SafeCenterViewController.m
+//  BelApp
+//
+//  Created by Leon on 15/3/7.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import "SafeCenterViewController.h"
+#import "NSString+Extension.h"
+
+@interface SafeCenterViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *moblieStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fyStatusLabel;
+@property (weak, nonatomic) IBOutlet UITableViewCell *nameCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *fyCell;
+
+
+@end
+
+@implementation SafeCenterViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    Userinfo *userInfo = ((AppDelegate *)[UIApplication sharedApplication].delegate).loginAccount.userinfo;
+    
+    self.moblieStatusLabel.text = [userInfo.mobile toAsteriskPhoneNum];
+    
+    if (userInfo.realnameValid){
+        self.nameCell.accessoryType = UITableViewCellAccessoryNone;
+        self.nameStatusLabel.text = [userInfo.realname toAsteriskName];
+        self.nameCell.userInteractionEnabled = NO;
+        
+        if (userInfo.isFyValid) {
+            self.fyCell.accessoryType = UITableViewCellAccessoryNone;
+            self.fyStatusLabel.text = userInfo.fy_account;
+            self.fyCell.userInteractionEnabled = NO;
+        }
+    } else {
+        self.fyCell.userInteractionEnabled = NO;
+    }
+}
+
+
+
+@end

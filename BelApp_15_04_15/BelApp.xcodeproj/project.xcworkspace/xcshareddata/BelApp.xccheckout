@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DEB2AC51-53AD-45C2-B00B-3A5E7F47D631</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BelApp</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>b19e6994-d8b1-c245-a0a0-3b1ec46f0878++2234</key>
+		<string>https://192.168.23.39/svn/BelApp_iOS/BelApp</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BelApp.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>b19e6994-d8b1-c245-a0a0-3b1ec46f0878++2234</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>b19e6994-d8b1-c245-a0a0-3b1ec46f0878++2234</key>
+		<string>https://192.168.23.39/svn/BelApp_iOS</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://192.168.23.39/svn/BelApp_iOS/BelApp/BelApp.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>b19e6994-d8b1-c245-a0a0-3b1ec46f0878++2234</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>b19e6994-d8b1-c245-a0a0-3b1ec46f0878++2234</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BelApp_15_04_15</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,23 @@
+//
+//  HomeProductCell.m
+//  BelApp
+//
+//  Created by Leon on 15/3/5.
+//  Copyright (c) 2015年 苏州中资联. All rights reserved.
+//
+
+#import "HomeProductCell.h"
+
+@implementation HomeProductCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
+    [super setSelected:selected animated:animated];
+
+}
+
+@end

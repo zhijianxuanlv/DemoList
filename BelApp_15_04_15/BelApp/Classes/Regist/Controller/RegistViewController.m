@@ -1,0 +1,157 @@
+//
+//  RegistViewController.m
+//  BelApp
+//
+//  Created by Leon on 3/4/15.
+//  Copyright (c) 2015 苏州中资联. All rights reserved.
+//
+
+#import "RegistViewController.h"
+#import "AgreementController.h"
+#import "VerifyMobileController.h"
+#import "RegistInfo.h"
+#import "LCGrayButton.h"
+
+
+@interface RegistViewController () <AgreementDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordField;
+@property (weak, nonatomic) IBOutlet LCGrayButton *registButton;
+
+@property (weak, nonatomic) IBOutlet UITextField *generalizeField;
+@property (weak, nonatomic) IBOutlet UIButton *agreementBtn;
+
+- (IBAction)registAction;
+- (IBAction)agreeAction:(UIButton *)sender;
+
+@property (nonatomic, strong) RegistInfo *registInfo;
+
+@end
+@implementation RegistViewController
+
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.registButton.normalColor = RGBColor(245, 61, 61);
+    self.registButton.enabled = NO;
+    
+    self.navigationController.navigationBar.translucent = NO;
+    
+    //监听文本框内容
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:self.confirmPasswordField];
+    
+    self.registInfo = [[RegistInfo alloc] init];
+    
+}
+
+- (void)textChange {
+    if(self.agreementBtn.isSelected) {
+        if (self.usernameField.text.length >= 4 && self.passwordField.text.length >= 6 && self.confirmPasswordField.text.length >= 6) {
+            self.registButton.enabled = YES;
+        } else {
+            self.registButton.enabled = NO;
+        }
+    }
+}
+
+- (IBAction)cancelAction:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+- (IBAction)registAction{
+    LCLog(@"立即注册");
+    //判断用户名格式
+    NSString *usernameRegex = @"^[_a-zA-Z]\\w{3,15}$";
+    NSPredicate *usernamePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", usernameRegex];
+    if (![usernamePredicate evaluateWithObject:self.usernameField.text]) {
+        [MBProgressHUD showError:@"用户名必须为4-16位字母,数字,下划线!"];
+        return;
+    }
+    
+    //判断密码
+    NSString *regex = @"^[A-Za-z]+[0-9]+[A-Za-z0-9]*|[0-9]+[A-Za-z]+[A-Za-z0-9]*$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([predicate evaluateWithObject:self.passwordField.text] ) {
+        
+        if (self.passwordField.text.length >= 6 && self.passwordField.text.length <= 16) {
+            if ([self.passwordField.text isEqualToString:self.confirmPasswordField.text]) {
+                NSDictionary *param = @{@"username":self.usernameField.text,
+                                        @"promote":self.generalizeField.text,
+                                        @"signature":@""};
+                [HttpRequest postWithURL:@"account/chk_username.html" params:param success:^(id json) {
+
+                    if ([[json objectForKey:@"status"] isEqualToString:@"y"])
+                    {
+                        self.registInfo.username = self.usernameField.text;
+                        self.registInfo.password = self.passwordField.text;
+                        self.registInfo.promote = self.generalizeField.text;
+                        
+                        [self performSegueWithIdentifier:@"registSegue" sender:nil];
+                        
+                    }else {
+                        
+                        [MBProgressHUD showError:[json objectForKey:@"info"]];
+                    }
+                    
+                } failure:^(NSError *error) {
+                    LCLog(@"%@",error);
+                }];
+                
+            }else {
+                [MBProgressHUD showError:@"两次输入的密码不一致"];
+            }
+        }else {
+            [MBProgressHUD showError:@"密码长度超出"];
+        }
+    }else {
+        [MBProgressHUD showError:@"密码长度必须是6-16位，必须由数字字符组成"];
+    }
+}
+
+- (IBAction)agreeAction:(UIButton *)sender {
+    if (sender.isSelected) {
+        [sender setSelected:NO];
+        self.registButton.enabled = NO;
+    } else  {
+        [self  performSegueWithIdentifier:@"agreementSegue" sender:nil];
+    }
+}
+
+
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"agreementSegue"]) {
+        AgreementController *agreement = segue.destinationViewController;
+        agreement.delegate = self;
+        agreement.agreementStr = @"贝尔在线协议";
+    }
+    if ([segue.identifier isEqualToString:@"registSegue"]) {
+        VerifyMobileController *verifyMobileCtrl = segue.destinationViewController;
+        verifyMobileCtrl.registInfo = self.registInfo;
+
+    }
+    
+}
+
+- (void)agreeUserAgreement {
+    self.agreementBtn.selected = YES;
+    if (self.usernameField.text.length > 0 && self.passwordField.text.length > 0 && self.confirmPasswordField.text.length > 0) {
+        self.registButton.enabled = YES;
+    }
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+@end
